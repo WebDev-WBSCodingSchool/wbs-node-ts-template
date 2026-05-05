@@ -18,7 +18,7 @@
     "rewriteRelativeImportExtensions": true, // Rewrites relative imports with correct extensions
     "module": "preserve", // Keeps import/export syntax for Node.js type stripping
     "rootDir": "./src", // Keeps emitted files rooted at src/
-    "outDir": "dist" // Output directory for compiled JavaScript
+    "outDir": "./dist" // Output directory for compiled JavaScript
     /* More Options: */
     // "noEmit": true, // Use when TypeScript should check only and another tool builds
     // "module": "nodenext", // Replace "preserve" when you want Node's exact module rules
