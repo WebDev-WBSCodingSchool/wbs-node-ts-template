@@ -62,20 +62,11 @@ The `dist/` directory is created when you run `npm run build`.
 
 ## Development vs Production
 
-Development runs TypeScript directly:
+During development, Node runs the TypeScript files in `src/` directly.
 
-```bash
-node --watch --conditions development src/app.ts
-```
+For production, TypeScript compiles `src/` to JavaScript in `dist/`, and Node runs the compiled output.
 
-Production runs compiled JavaScript:
-
-```bash
-npm run build
-node dist/app.js
-```
-
-Node ignores `tsconfig.json` at runtime. The TypeScript config is for type-checking and compiling; runtime import aliases must be configured in `package.json`.
+Node does not read `tsconfig.json` at runtime. Use it for type-checking and compilation settings; runtime import aliases belong in `package.json`.
 
 ## Package Imports
 
@@ -100,13 +91,7 @@ Then import from code:
 import { helper } from '#utils';
 ```
 
-The `"development"` condition is used by the dev script:
-
-```bash
-node --conditions development src/app.ts
-```
-
-The `"default"` condition is used when running compiled JavaScript from `dist/`.
+The `"development"` condition points Node to the `.ts` source files during development. The `"default"` condition points Node to the compiled `.js` files in `dist/`.
 
 Prefer `package.json#imports` for Node backend aliases. Use `tsconfig.paths` only when your runtime or bundler also understands the same alias.
 
