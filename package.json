@@ -2,8 +2,11 @@
   "name": "wbs-node-ts-template",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/app.js",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "dist/app.js",
   "imports": {
     "#utils": {
       "development": "./src/utils/index.ts",
@@ -17,11 +20,8 @@
     "prestart": "npm run build",
     "start": "node dist/app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@types/node": "^24.10.12",
-    "typescript": "^5.9.3"
+    "@types/node": "^24.13.3",
+    "typescript": "^7.0.2"
   }
 }

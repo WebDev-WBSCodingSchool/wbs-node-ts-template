@@ -1,10 +1,10 @@
 # WBS Node.js TypeScript Backend Scaffold
 
-A modern, production-ready scaffold for Node.js backend projects using TypeScript with ES modules support.
+A modern, production-ready backend scaffold for TypeScript, Node and native ES modules.
+
+In development, Node runs the `.ts` files directly. For production, TypeScript compiles the project to JavaScript in `dist/`.
 
 ## 🚀 Quick Start
-
-### Setup
 
 ```bash
 # Clone the template repository
@@ -13,7 +13,7 @@ git clone https://github.com/WebDev-WBSCodingSchool/wbs-node-ts-template.git you
 # Navigate to your project
 cd your-project-name
 
-# Remove the existing git history and reinitialize
+# Remove the template git history and start a new repository
 rm -rf .git
 git init
 
@@ -28,59 +28,81 @@ npm run dev
 
 ```bash
 .
-├── package-lock.json   # Dependency lock file (auto-generated)
-├── package.json        # Project configuration and dependencies
-├── README.md          # This file
+├── package-lock.json   # Dependency lock file
+├── package.json        # Scripts, dependencies, and Node package imports
+├── README.md           # Project documentation
 ├── src
 │   └── app.ts          # Application entry point
 └── tsconfig.json       # TypeScript configuration
 ```
 
-> **Note**: The `dist/` directory will be created automatically when you run `npm run build` to contain the compiled JavaScript output.
+The `dist/` directory is created when you run `npm run build`.
 
 ## 🛠 Available Scripts
 
-| Command            | Description                                                |
-| ------------------ | ---------------------------------------------------------- |
-| `npm run dev`      | Start development server with file watching and hot reload |
-| `npm run build`    | Compile TypeScript to JavaScript                           |
-| `npm run start`    | Build and run the production version                       |
-| `npm run prebuild` | Clean the dist directory (runs automatically before build) |
-| `npm run prestart` | Build the project (runs automatically before start)        |
+| Command            | Description                                             |
+| ------------------ | ------------------------------------------------------- |
+| `npm run dev`      | Run `src/app.ts` directly with Node and restart on save |
+| `npm run build`    | Compile TypeScript from `src/` to JavaScript in `dist/` |
+| `npm run start`    | Build first, then run `dist/app.js`                     |
+| `npm run prebuild` | Remove the old `dist/` directory before building        |
+| `npm run prestart` | Build automatically before `npm run start`              |
 
 ## 🔧 Features
 
 ### Modern TypeScript Configuration
 
-- **ES2022** target with modern JavaScript features
-- **Strict mode** enabled for better type safety
-- **ES Modules** support (native Node.js ESM)
-- **Path aliases** with `#` prefix to avoid conflicts
-- **Import extensions** support for better IDE experience
+- **ES2025** target for modern Node.js projects
+- **Strict mode** enabled by default in TypeScript 7
+- **Native Node.js ESM** support with `NodeNext`
+- **Node package imports** with `#` aliases via `package.json#imports`
+- **TypeScript import extensions** support for direct Node development
+- **Build output** from `src/` to `dist/`
+- **Node-compatible TypeScript syntax** for running `.ts` files directly in development
 
-### Development Experience
+## Development vs Production
 
-- **File watching** with `--watch` flag for instant reloads
-- **TypeScript** compilation with proper module resolution
-- **Clean builds** with automatic dist cleanup
-- **Isolated modules** for better compilation performance
+During development, Node runs the TypeScript files in `src/` directly.
 
-### Path Aliases
+For production, TypeScript compiles `src/` to JavaScript in `dist/`, and Node runs the compiled output.
 
-The project supports internal path aliases using the `#` prefix:
+Node does not read `tsconfig.json` at runtime. Use it for type-checking and compilation settings; runtime import aliases belong in `package.json`.
 
-```typescript
-// Instead of relative imports like this:
-import { helper } from '../../../utils';
+## Package Imports
 
-// You can use clean aliases like this:
+Use Node's `package.json#imports` for internal aliases that start with `#`.
+
+Example:
+
+```jsonc
+{
+  "imports": {
+    "#utils": {
+      "development": "./src/utils/index.ts",
+      "default": "./dist/utils/index.js",
+    },
+  },
+}
+```
+
+Then import from code:
+
+```ts
 import { helper } from '#utils';
 ```
 
-You need to add additional modules subpaths to the `imports` field in `package.json`
+The `"development"` condition points Node to the `.ts` source files during development. The `"default"` condition points Node to the compiled `.js` files in `dist/`.
+
+Prefer `package.json#imports` for Node backend aliases. Use `tsconfig.paths` only when your runtime or bundler also understands the same alias.
+
+## JSON Imports
+
+With `module: "NodeNext"`, TypeScript follows Node's ES module rules. JSON imports need an import attribute:
+
+```ts
+import data from './data.json' with { type: 'json' };
+```
 
 ## 📦 Dependencies
 
-### Runtime Dependencies
-
-- None (pure Node.js setup ready for your additions)
+This template starts with no runtime dependencies (pure Node.js setup ready for your additions).
